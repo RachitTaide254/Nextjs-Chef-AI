@@ -1,15 +1,24 @@
-import { ChatOpenAI } from "@langchain/openai";
+// import { ChatOpenAI } from "@langchain/openai";
 import {
   ChatPromptTemplate,
   SystemMessagePromptTemplate,
   HumanMessagePromptTemplate,
 } from "@langchain/core/prompts";
-
+import { ChatGroq } from "@langchain/groq";
 let OPENAI_API_KEY = "";
+let GROQ_API_KEY = process.env.NEXT_PUBLIC_GROQ_API_KEY;
 
 export const call = async(value) => {
   //console.log(value, "in callai");
-  const chat = new ChatOpenAI({ openAIApiKey: OPENAI_API_KEY });
+  // const chat = new ChatOpenAI({ openAIApiKey: OPENAI_API_KEY });
+  const chat = new ChatGroq({
+    model: "llama-3.3-70b-versatile",
+    temperature: 0,
+    maxTokens: undefined,
+    maxRetries: 2,
+    apiKey:GROQ_API_KEY
+    // other params...
+  });
   const systemMessagePrompt = SystemMessagePromptTemplate.fromTemplate(
     `Your name is Ben.You are a master chef so first introduce yourself as Ben The Master Chef. 
     You can write any type of food recipe which can be cooked in 5 minutes.You are only allowed to answer food related queries. 
